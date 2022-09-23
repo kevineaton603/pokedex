@@ -4,7 +4,7 @@ import {
   EvolutionChain,
   EvolutionTrigger,
   NamedAPIResource,
-} from "pokenode-ts";
+} from "../models";
 
 const BASE_URI = "https://pokeapi.co/api/v2";
 
@@ -37,13 +37,11 @@ export const getAbility = async (value: string | number) => {
 export const getEvolution = async (value: string | number) => {
   const response = await fetch(`${BASE_URI}/evolution-chain/${value}`);
   const json = await response.json();
-  console.log(json);
   return json as EvolutionChain;
 };
 
 export const getEvolutionTrigger = async (value: string | number) => {
   const response = await fetch(`${BASE_URI}/evolution-trigger/${value}`);
   const json = await response.json();
-  console.log(json);
   return json as EvolutionTrigger;
 };

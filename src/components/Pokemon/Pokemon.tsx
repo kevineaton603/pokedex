@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Pokemon as PokemonType } from "pokenode-ts";
+import { Pokemon as PokemonType } from "../../models";
 import { useMemo } from "react";
 import { getPokemon } from "../../api/pokemon-api";
 import Ability from "./Ability";

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { NamedAPIResource } from "pokenode-ts";
+import { NamedAPIResource } from "../models";
 import { getPokemons } from "../api/pokemon-api";
 import Pokemon from "../components/Pokemon";
 

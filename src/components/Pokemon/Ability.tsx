@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Ability as AbilityType } from "pokenode-ts";
+import { Ability as AbilityType } from "../../models";
 import { useMemo } from "react";
 import { getAbility } from "../../api/pokemon-api";
 
