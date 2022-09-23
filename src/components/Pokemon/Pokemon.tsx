@@ -26,7 +26,7 @@ const Pokemon: React.FC<{ name: string }> = ({ name }) => {
   }, [data?.types]);
 
   return !isLoading ? (
-    <div className="flex w-full grid-cols-5 flex-row items-start gap-4 rounded-sm p-4 shadow-xl hover:ring-2 hover:ring-white dark:bg-slate-600 sm:grid md:grid-cols-8">
+    <div className="flex w-full grid-cols-5 flex-row items-start gap-4 rounded-sm p-4 shadow-xl hover:ring-2 hover:ring-white dark:bg-slate-600 hover:dark:bg-slate-500 sm:grid md:grid-cols-8">
       <div className={`col-span-1 flex-none`}>
         <div className={`${imageBackgroundClassNames} h-20 w-20 rounded-full`}>
           <img
