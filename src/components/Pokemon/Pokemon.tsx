@@ -3,11 +3,14 @@ import { Pokemon as PokemonType } from "../../models";
 import { useMemo } from "react";
 import { getPokemon } from "../../api/pokemon-api";
 import Ability from "./Ability";
+import { useInView } from "react-intersection-observer";
+import PokeballSpinner from "../pokeball-spinner/PokeballSpinner";
 
 const Pokemon: React.FC<{ name: string }> = ({ name }) => {
   const { data, isLoading } = useQuery<PokemonType>(["pokemon", name], () =>
     getPokemon(name)
   );
+  const { ref, inView } = useInView({ threshold: 0, triggerOnce: true });
 
   const gameIndex = useMemo(
     () => data?.game_indices.find((x) => x.version.name === "gold")?.game_index,
@@ -26,7 +29,12 @@ const Pokemon: React.FC<{ name: string }> = ({ name }) => {
   }, [data?.types]);
 
   return !isLoading ? (
-    <div className="flex w-full grid-cols-5 flex-row items-start gap-4 rounded-sm p-4 shadow-xl hover:ring-2 hover:ring-white dark:bg-slate-600 hover:dark:bg-slate-500 sm:grid md:grid-cols-8">
+    <div
+      ref={ref}
+      className={`${
+        inView ? "opacity-100 " : "opacity-0"
+      } flex w-full grid-cols-5 flex-row items-start gap-4 rounded-sm p-4 shadow-xl transition-all duration-500 hover:ring-2 hover:ring-white dark:bg-slate-600 hover:dark:bg-slate-500 sm:grid md:grid-cols-8`}
+    >
       <div className={`col-span-1 flex-none`}>
         <div className={`${imageBackgroundClassNames} h-20 w-20 rounded-full`}>
           <img
@@ -83,7 +91,7 @@ const Pokemon: React.FC<{ name: string }> = ({ name }) => {
 const Loading: React.FC = () => {
   return (
     <div className="flex w-full animate-pulse flex-row items-start space-x-4 rounded-sm p-4 shadow-xl dark:bg-slate-600">
-      <div className="h-20 w-20 flex-none space-y-6 rounded-full bg-slate-700"></div>
+      <PokeballSpinner className="h-20 w-20 flex-none space-y-6"></PokeballSpinner>
       <div className="flex grow flex-col space-y-1">
         <div className="h-4 w-full rounded bg-slate-700"></div>
         <div className="h-4 w-full rounded bg-slate-700"></div>
