@@ -32,7 +32,7 @@ const Pokemon: React.FC<{ name: string }> = ({ name }) => {
     <div
       ref={ref}
       className={`${
-        inView ? "opacity-100 " : "opacity-0"
+        inView ? "translate-y-0 opacity-100 " : "translate-y-20 opacity-0"
       } flex w-full grid-cols-5 flex-row items-start gap-4 rounded-sm p-4 shadow-xl transition-all duration-500 hover:ring-2 hover:ring-white dark:bg-slate-600 hover:dark:bg-slate-500 sm:grid md:grid-cols-8`}
     >
       <div className={`col-span-1 flex-none`}>
