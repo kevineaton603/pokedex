@@ -5,8 +5,35 @@ import { getPokemon } from "../../api/pokemon-api";
 import Ability from "./Ability";
 import { useInView } from "react-intersection-observer";
 import PokeballSpinner from "../pokeball-spinner/PokeballSpinner";
+import { GenerationNumeral } from "../../utils";
 
-const Pokemon: React.FC<{ name: string }> = ({ name }) => {
+const getSprite = (generation: GenerationNumeral, pokemon?: PokemonType) => {
+  switch (generation) {
+    case "generation-i":
+      return pokemon?.sprites.versions[generation]["red-blue"]
+        .front_transparent;
+    case "generation-ii":
+      return pokemon?.sprites.versions[generation].crystal.front_transparent;
+    case "generation-iii":
+      return pokemon?.sprites.versions[generation].emerald.front_default;
+    case "generation-iv":
+      return pokemon?.sprites.versions[generation].platinum.front_default;
+    case "generation-v":
+      return pokemon?.sprites.versions[generation]["black-white"].front_default;
+    case "generation-vi":
+      return pokemon?.sprites.versions[generation]["omegaruby-alphasapphire"]
+        .front_default;
+    default:
+      return pokemon?.sprites.other?.["official-artwork"].front_default;
+  }
+};
+
+type PokemonProps = {
+  name: string;
+  generation: GenerationNumeral;
+};
+
+const Pokemon: React.FC<PokemonProps> = ({ name, generation }) => {
   const { data, isLoading } = useQuery<PokemonType>(["pokemon", name], () =>
     getPokemon(name)
   );
@@ -39,10 +66,7 @@ const Pokemon: React.FC<{ name: string }> = ({ name }) => {
         <div className={`${imageBackgroundClassNames} h-20 w-20 rounded-full`}>
           <img
             className={`h-20 w-20 p-2`}
-            src={
-              data?.sprites.versions["generation-iii"].emerald.front_default ??
-              ""
-            }
+            src={getSprite(generation, data) ?? ""}
             alt={data?.name}
             loading={"lazy"}
             style={{ imageRendering: "pixelated" }}
