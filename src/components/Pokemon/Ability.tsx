@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import { Ability as AbilityType } from "../../models";
 import { useMemo } from "react";
 import { getAbility } from "../../api/pokemon-api";
+import { PokeAPI } from "pokeapi-types";
 
 type AbilityProps = {
   name: string;
 };
 
 const Ability: React.FC<AbilityProps> = ({ name }) => {
-  const { data, isLoading } = useQuery<AbilityType>(["ability", name], () =>
+  const { data } = useQuery<PokeAPI.Ability>(["ability", name], () =>
     getAbility(name)
   );
   const effectEntry = useMemo(

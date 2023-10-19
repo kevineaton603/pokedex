@@ -4,6 +4,7 @@ import {
   EvolutionChain,
   EvolutionTrigger,
   NamedAPIResource,
+  PokemonSpecies,
 } from "../models";
 
 const BASE_URI = "https://pokeapi.co/api/v2";
@@ -32,6 +33,12 @@ export const getAbility = async (value: string | number) => {
   const response = await fetch(`${BASE_URI}/ability/${value}`);
   const json = await response.json();
   return json as Ability;
+};
+
+export const getSpecies = async (value: string | number) => {
+  const response = await fetch(`${BASE_URI}/pokemon-species/${value}`);
+  const json = await response.json();
+  return json as PokemonSpecies;
 };
 
 export const getEvolution = async (value: string | number) => {

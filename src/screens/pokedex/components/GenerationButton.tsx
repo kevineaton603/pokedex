@@ -15,9 +15,9 @@ const GenerationButton: React.FC<GenerationButtonProps> = ({
     <button
       className={`box-border rounded-lg ${
         selectedGeneration === generation
-          ? "bg-stone-200 text-black"
-          : "bg-stone-800"
-      } py-1 px-2 text-white hover:bg-stone-200 hover:text-black`}
+          ? "bg-cyan-500 text-black"
+          : "bg-cyan-600"
+      } py-1 px-2 text-white transition-all hover:bg-cyan-400`}
       onClick={() => onClick(generation)}
     >
       {generation.replace("-", " ").toLocaleUpperCase()}

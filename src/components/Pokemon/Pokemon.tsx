@@ -1,32 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { Pokemon as PokemonType } from "../../models";
 import { useMemo } from "react";
 import { getPokemon } from "../../api/pokemon-api";
 import Ability from "./Ability";
 import { useInView } from "react-intersection-observer";
 import PokeballSpinner from "../pokeball-spinner/PokeballSpinner";
-import { GenerationNumeral } from "../../utils";
-
-const getSprite = (generation: GenerationNumeral, pokemon?: PokemonType) => {
-  switch (generation) {
-    case "generation-i":
-      return pokemon?.sprites.versions[generation]["red-blue"]
-        .front_transparent;
-    case "generation-ii":
-      return pokemon?.sprites.versions[generation].crystal.front_transparent;
-    case "generation-iii":
-      return pokemon?.sprites.versions[generation].emerald.front_default;
-    case "generation-iv":
-      return pokemon?.sprites.versions[generation].platinum.front_default;
-    case "generation-v":
-      return pokemon?.sprites.versions[generation]["black-white"].front_default;
-    case "generation-vi":
-      return pokemon?.sprites.versions[generation]["omegaruby-alphasapphire"]
-        .front_default;
-    default:
-      return pokemon?.sprites.other?.["official-artwork"].front_default;
-  }
-};
+import { GenerationNumeral, getSprite } from "../../utils";
+import { PokeAPI } from "pokeapi-types";
 
 type PokemonProps = {
   name: string;
@@ -34,7 +13,7 @@ type PokemonProps = {
 };
 
 const Pokemon: React.FC<PokemonProps> = ({ name, generation }) => {
-  const { data, isLoading } = useQuery<PokemonType>(["pokemon", name], () =>
+  const { data, isLoading } = useQuery<PokeAPI.Pokemon>(["pokemon", name], () =>
     getPokemon(name)
   );
   const { ref, inView } = useInView({ threshold: 0, triggerOnce: true });
@@ -60,7 +39,7 @@ const Pokemon: React.FC<PokemonProps> = ({ name, generation }) => {
       ref={ref}
       className={`${
         inView ? "translate-y-0 opacity-100 " : "translate-y-20 opacity-0"
-      } flex w-full grid-cols-5 flex-row items-start gap-4 rounded-sm p-4 shadow-xl transition-all duration-500 hover:ring-2 hover:ring-white dark:bg-slate-600 hover:dark:bg-slate-500 sm:grid md:grid-cols-8`}
+      } flex w-full grid-cols-5 flex-row items-start gap-4 rounded-sm p-4 shadow-xl transition-all duration-500 hover:ring-2 dark:bg-slate-600 hover:dark:bg-slate-500 dark:hover:ring-white sm:grid md:grid-cols-8`}
     >
       <div className={`col-span-1 flex-none`}>
         <div className={`${imageBackgroundClassNames} h-20 w-20 rounded-full`}>
@@ -83,7 +62,7 @@ const Pokemon: React.FC<PokemonProps> = ({ name, generation }) => {
               <div
                 key={type.type.name}
                 className={
-                  "text-md w-20 rounded-sm text-center" +
+                  "text-md w-20 rounded-sm text-center text-white" +
                   ` bg-${type.type.name}-light dark:bg-${type.type.name}-dark`
                 }
               >

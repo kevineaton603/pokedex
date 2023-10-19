@@ -3,23 +3,25 @@ import { useMemo, useState } from "react";
 import { getPokemon, getPokemons } from "../../api/pokemon-api";
 import Pokemon from "../../components/Pokemon";
 import Layout from "../../layouts/Layout";
-import { NamedAPIResource } from "../../models";
 import { GenerationNumeral } from "../../utils";
 import GenerationButton from "./components/GenerationButton";
+import { PokeAPI } from "pokeapi-types";
 
 const PokedexScreen: React.FC = () => {
   const [generation, setGeneration] =
     useState<GenerationNumeral>("generation-iii");
-  const { data, isLoading } = useQuery<Array<NamedAPIResource>>(
+  const { data, isLoading } = useQuery<PokeAPI.NamedAPIResource[]>(
     ["pokemons"],
     () => getPokemons(151)
   );
   const pokemonResults = useQueries({
-    queries: Array.from(data ?? ([] as NamedAPIResource[])).map((x) => ({
-      queryKey: ["pokemon", x.name],
-      queryFn: () => getPokemon(x.name),
-      staleTime: Infinity,
-    })),
+    queries: Array.from(data ?? ([] as PokeAPI.NamedAPIResource[])).map(
+      (x) => ({
+        queryKey: ["pokemon", x.name],
+        queryFn: () => getPokemon(x.name),
+        staleTime: Infinity,
+      })
+    ),
   });
 
   const pokemons = useMemo(
@@ -34,7 +36,7 @@ const PokedexScreen: React.FC = () => {
   return (
     <Layout>
       <div className="my-4 flex w-full max-w-4xl flex-col items-center space-y-4">
-        <div className="flex w-full flex-row justify-evenly">
+        <div className="flex w-full flex-row justify-evenly ">
           <GenerationButton
             generation="generation-i"
             onClick={onClick}
